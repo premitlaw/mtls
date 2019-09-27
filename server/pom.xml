@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>no.difa.eik</groupId>
+  <artifactId>eikmTLSserver</artifactId>
+  <version>${revision}${sha1}${changelist}</version>
+  <packaging>jar</packaging>
+
+  <name>eikmTLSserver</name>
+  <description>A microservice to handle pharmaceuticalservice.
+  </description>
+  <ciManagement>
+    <url>https://concourse.eikplatform.io/teams/Dev/pipelines/eik2001NINRef
+    </url>
+  </ciManagement>
+  <issueManagement>
+    <url>https://difanybransjelosning.atlassian.net/browse</url>
+  </issueManagement>
+  <scm>
+    <url>https://bitbucket.org/difanybransjelosning/eik2001NINRef/</url>
+    <developerConnection>
+      git@bitbucket.org:difanybransjelosning/eik2001NINRef.git
+    </developerConnection>
+  </scm>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.8.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+
+  <properties>
+    <revision>1.0.0</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <sha1/>
+    <spring-cloud-contract.version>2.0.1.RELEASE</spring-cloud-contract.version>
+    <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
+    <OWASP-Zap-plugin.version>4.0.0</OWASP-Zap-plugin.version>
+    <concourseteam>Dev</concourseteam>
+    <concoursejobname>Store%20Artifact%20and%20Deploy</concoursejobname>
+    <sonar.coverage.exclusions>
+      **/domain/**/*,
+      **/gateway/*,
+    </sonar.coverage.exclusions>
+    <sonar.exclusions>
+      **/gateway/**/*,
+      **/domain/**/*,
+    </sonar.exclusions>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.2</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <finalName>eikmtls</finalName>
+            </configuration>
+          </plugin>
+    </plugins>
+  </build>
+</project>

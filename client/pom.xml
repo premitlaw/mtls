@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>no.difa.eik</groupId>
+  <artifactId>eikmTLSclient</artifactId>
+  <version>${revision}${sha1}${changelist}</version>
+  <packaging>jar</packaging>
+
+  <name>eikmTLSclient</name>
+  <description>A microservice to handle pharmaceuticalservice.
+  </description>
+  <ciManagement>
+    <url>https://concourse.eikplatform.io/teams/Dev/pipelines/eik2001NINRef
+    </url>
+  </ciManagement>
+  <issueManagement>
+    <url>https://difanybransjelosning.atlassian.net/browse</url>
+  </issueManagement>
+  <scm>
+    <url>https://bitbucket.org/difanybransjelosning/eik2001NINRef/</url>
+    <developerConnection>
+      git@bitbucket.org:difanybransjelosning/eik2001NINRef.git
+    </developerConnection>
+  </scm>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.8.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+
+  <properties>
+    <revision>1.0.0</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <sha1/>
+    <spring-cloud-contract.version>2.0.1.RELEASE</spring-cloud-contract.version>
+    <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
+    <OWASP-Zap-plugin.version>4.0.0</OWASP-Zap-plugin.version>
+    <concourseteam>Dev</concourseteam>
+    <concoursejobname>Store%20Artifact%20and%20Deploy</concoursejobname>
+    <sonar.coverage.exclusions>
+      **/domain/**/*,
+      **/gateway/*,
+    </sonar.coverage.exclusions>
+    <sonar.exclusions>
+      **/gateway/**/*,
+      **/domain/**/*,
+    </sonar.exclusions>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.2</version>
+    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>sun.jdk</groupId>-->
+<!--      <artifactId>rt.jar</artifactId>-->
+<!--      <version>1.8</version>-->
+<!--      <scope>system</scope>-->
+<!--      <systemPath>${java.home}/lib/rt.jar</systemPath>-->
+<!--    </dependency>-->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--       Artifactory plugin-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.jfrog.buildinfo</groupId>-->
+      <!--        <artifactId>artifactory-maven-plugin</artifactId>-->
+      <!--        <version>${artifactory-maven-plugin.version}</version>-->
+      <!--        <inherited>false</inherited>-->
+      <!--        <executions>-->
+      <!--          <execution>-->
+      <!--            <id>build-info</id>-->
+      <!--            <goals>-->
+      <!--              <goal>publish</goal>-->
+      <!--            </goals>-->
+      <!--            <configuration>-->
+      <!--              <deployProperties>-->
+      <!--                <groupId>${project.groupId}</groupId>-->
+      <!--                <artifactId>${project.artifactId}</artifactId>-->
+      <!--                <version>${project.version}</version>-->
+      <!--              </deployProperties>-->
+      <!--              <artifactory>-->
+      <!--                <includeEnvVars>true</includeEnvVars>-->
+      <!--                <envVarsExcludePatterns>*password*,*secret*,*key*,*token*,*passphrase*-->
+      <!--                </envVarsExcludePatterns>-->
+      <!--                <timeoutSec>60</timeoutSec>-->
+      <!--              </artifactory>-->
+      <!--              <publisher>-->
+      <!--                <contextUrl>https://artifactory.eikplatform.io</contextUrl>-->
+      <!--                <username>${username}</username>-->
+      <!--                <password>${password}</password>-->
+      <!--                <excludePatterns>*-tests.jar</excludePatterns>-->
+      <!--                <repoKey>libs-release-local</repoKey>-->
+      <!--                <snapshotRepoKey>libs-snapshot-local</snapshotRepoKey>-->
+      <!--              </publisher>-->
+      <!--              <buildInfo>-->
+      <!--                <buildName>${project.artifactId}</buildName>-->
+      <!--                <buildNumber>${buildnumber}</buildNumber>-->
+      <!--                <buildUrl>-->
+      <!--                  https://concourse.eikplatform.io/teams/${concourseteam}/pipelines/${project.artifactId}/jobs/${concoursejobname}/builds/${buildnumber}-->
+      <!--                </buildUrl>-->
+      <!--              </buildInfo>-->
+      <!--              <licenses>-->
+      <!--                <autoDiscover>true</autoDiscover>-->
+      <!--                <includePublishedArtifacts>false</includePublishedArtifacts>-->
+      <!--                <runChecks>true</runChecks>-->
+      <!--                <scopes>test,compile,provided,runtime</scopes>-->
+      <!--                <violationRecipients>deployer@eikplatform.io</violationRecipients>-->
+      <!--              </licenses>-->
+      <!--            </configuration>-->
+      <!--          </execution>-->
+      <!--        </executions>-->
+      <!--      </plugin>-->
+      <!-- Spring Cloud Contracts -->
+      <!--<plugin>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+        <version>${spring-cloud-contract.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <packageWithBaseClasses>no.difa.eik.pharmaceutical.contract</packageWithBaseClasses>
+          &lt;!&ndash;<testMode>EXPLICIT</testMode> &ndash;&gt;
+        </configuration>
+      </plugin>-->
+      <!--&lt;!&ndash; Replacer plugin, used for release tag &ndash;&gt;-->
+
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <finalName>eikmtls</finalName>
+            </configuration>
+          </plugin>
+<!--      <plugin>-->
+<!--        <groupId>com.google.code.maven-replacer-plugin</groupId>-->
+<!--        <artifactId>replacer</artifactId>-->
+<!--        <version>${maven-replacer-plugin.version}</version>-->
+<!--        <configuration>-->
+<!--          <file>pom.xml</file>-->
+<!--          <replacements>-->
+<!--            <replacement>-->
+<!--              <token>${revision}</token>-->
+<!--              <value>${replacer.revision}</value>-->
+<!--            </replacement>-->
+<!--            <replacement>-->
+<!--              <token>${changelist}</token>-->
+<!--              <value>${replacer.changelist}</value>-->
+<!--            </replacement>-->
+<!--          </replacements>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+<!--      &lt;!&ndash; OWASP Zap Dependency checker &ndash;&gt;-->
+<!--      <plugin>-->
+<!--        <groupId>org.owasp</groupId>-->
+<!--        <artifactId>dependency-check-maven</artifactId>-->
+<!--        <version>${OWASP-Zap-plugin.version}</version>-->
+<!--        <configuration>-->
+<!--          <format>ALL</format>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+<!--      <plugin>-->
+<!--        <groupId>pl.project13.maven</groupId>-->
+<!--        <artifactId>git-commit-id-plugin</artifactId>-->
+<!--      </plugin>-->
+    </plugins>
+  </build>
+
+
+</project>
